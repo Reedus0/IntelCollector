@@ -11,8 +11,9 @@ from ..objects.ioc import IoC, IoCType
 class MISPExporter(Exporter):
     __url: str
     __api_key: str
+    __event_name: str
 
-    def __init__(self, url: str, api_key: str) -> None:
+    def __init__(self, url: str, api_key: str, event_name: str = None) -> None:
 
         if not url:
             raise ValueError("URL cannot be None")
@@ -28,6 +29,11 @@ class MISPExporter(Exporter):
             "Accept": "application/json",
             "Content-Type": "application/json",
         })
+
+        if not event_name:
+            event_name = "IntelCollector export"
+
+        self.__event_name = event_name
 
     def export(self, report: Report) -> None:
         if not report:
@@ -103,7 +109,7 @@ class MISPExporter(Exporter):
     def __create_event(self, attributes: list[dict[str, Any]]) -> None:
         payload = {
             "Event": {
-                "info": "IntelCollector export",
+                "info": self.__event_name,
                 "distribution": 0,
                 "threat_level_id": 4,
                 "analysis": 0,
