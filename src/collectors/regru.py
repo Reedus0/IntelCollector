@@ -1,6 +1,7 @@
 import requests
 
 import re
+import time
 
 from datetime import datetime, timedelta
 
@@ -43,6 +44,7 @@ class REGRUCollector(Collector):
                 response.raise_for_status()
 
                 result += response.text
+                time.sleep(0.25)
 
             return result
 
