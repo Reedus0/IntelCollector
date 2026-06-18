@@ -11,7 +11,6 @@ from .data.extractor import DataExtractor
 
 from .collectors.url import URLCollector
 from .collectors.file import FileCollector
-from .collectors.regru import REGRUCollector
 
 from .extractors.ip import IPExtractor
 from .extractors.hash import HashExtractor
@@ -23,8 +22,7 @@ from .exporters.misp import MISPExporter
 
 COLLECTORS = {
     "url": URLCollector,
-    "file": FileCollector,
-    "regru": REGRUCollector,
+    "file": FileCollector
 }
 
 EXPORTERS = {
@@ -46,8 +44,6 @@ def main():
 
     file_parser = subparsers.add_parser("file")
     file_parser.add_argument("path")
-
-    regru_parser = subparsers.add_parser("regru")
 
     args = parser.parse_args()
 
