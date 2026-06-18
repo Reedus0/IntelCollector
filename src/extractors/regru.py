@@ -6,7 +6,8 @@ KEYWORDS = [
     "yandex", "ya", "disk",
     "esia", "365", "mail",
     "vpn", "drone", "gos",
-    "rkn", "roskom", "nadzor"
+    "rkn", "roskom", "nadzor",
+    "sber", "vtb"
 ]
 
 

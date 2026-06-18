@@ -41,5 +41,5 @@ class IoC():
     def get_value(self) -> str:
         return self.__value
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.__type}: {self.__value}"
