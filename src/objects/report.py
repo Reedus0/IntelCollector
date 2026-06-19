@@ -29,12 +29,13 @@ class Report():
         if not isinstance(other, Report):
             return NotImplemented
 
-        seen_values: set[str] = set()
-        result = Report()
+        self_iocs = self.get_iocs()
 
-        for ioc in self.__iocs + other.get_iocs():
-            if ioc.get_value() not in seen_values:
-                seen_values.add(ioc.get_value())
-                result.add_ioc(ioc)
+        for ioc in other.get_iocs():
+            if ioc not in self_iocs:
+                self_iocs.append(ioc)
 
-        return result
+        for obj in other.get_objects():
+            self.add_object(obj)
+
+        return self

@@ -19,3 +19,9 @@ class Object:
 
         self.__iocs = iocs
         self.__type = type
+
+    def get_type(self) -> ObjectType:
+        return self.__type
+
+    def get_iocs(self) -> list[IoC]:
+        return self.__iocs

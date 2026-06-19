@@ -18,6 +18,7 @@ from .extractors.cve import CVEExtractor
 from .extractors.domain import DomainExtractor
 
 from .enrichers.tag import TagEnricher
+from .enrichers.resolve import ResolveEnricher
 
 from .exporters.misp import MISPExporter
 
@@ -71,11 +72,12 @@ def main():
         IPExtractor(),
         HashExtractor(),
         CVEExtractor(),
-        DomainExtractor(),
+        DomainExtractor()
     ]
 
     enrichers = [
-        TagEnricher()
+        TagEnricher(),
+        ResolveEnricher()
     ]
 
     data_collector = DataCollector(collector=collector)
