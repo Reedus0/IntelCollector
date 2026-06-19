@@ -4,7 +4,7 @@ from .collector import Collector
 class FileCollector(Collector):
     __path: str
 
-    def __init__(self, path: str) -> None:
+    def __init__(self, path: str):
         self.__path = path
 
     def collect(self) -> str:

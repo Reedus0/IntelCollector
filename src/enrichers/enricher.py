@@ -1,12 +1,13 @@
 from abc import ABC, abstractmethod
 
 from ..objects.ioc import IoC
+from ..objects.report import Report
 
 
 class Enricher(ABC):
 
     @abstractmethod
-    def enrich(self, ioc: IoC) -> IoC:
+    def enrich(self, ioc: IoC) -> Report:
         raise NotImplementedError(
             "Extract method must be implemented by subclass")
 

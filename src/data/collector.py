@@ -4,7 +4,7 @@ from ..collectors.collector import Collector
 class DataCollector:
     __collector: Collector
 
-    def __init__(self, collector: Collector) -> None:
+    def __init__(self, collector: Collector):
         if (not collector):
             raise ValueError("Collector cannot be None")
 

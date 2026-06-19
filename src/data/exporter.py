@@ -6,7 +6,7 @@ class DataExporter:
     __report: Report
     __exporter: Exporter
 
-    def __init__(self, report: Report, exporter: Exporter) -> None:
+    def __init__(self, report: Report, exporter: Exporter):
         if not report:
             raise ValueError("Report cannot be None")
 

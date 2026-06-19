@@ -5,7 +5,7 @@ class DataExtractor:
     __data: str
     __extractors: list[Extractor]
 
-    def __init__(self, data: str, extractors: list[Extractor]) -> None:
+    def __init__(self, data: str, extractors: list[Extractor]):
         if (not data):
             raise ValueError("Data cannot be empty")
 

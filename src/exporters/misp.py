@@ -13,7 +13,7 @@ class MISPExporter(Exporter):
     __api_key: str
     __event_name: str
 
-    def __init__(self, url: str, api_key: str, event_name: str = None) -> None:
+    def __init__(self, url: str, api_key: str, event_name: str = None):
 
         if not url:
             raise ValueError("URL cannot be None")

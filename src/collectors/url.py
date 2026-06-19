@@ -6,7 +6,7 @@ from .collector import Collector
 class URLCollector(Collector):
     __url: str
 
-    def __init__(self, url: str) -> None:
+    def __init__(self, url: str):
         self.__url = url
 
     def collect(self) -> str:
