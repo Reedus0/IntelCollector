@@ -15,6 +15,7 @@ class IoCType(Enum):
 class IoC():
     __type: IoCType
     __value: str
+    __tags: set
 
     def __init__(self, type: IoCType, value: str):
         self.__type = type
@@ -34,12 +35,25 @@ class IoC():
             raise ValueError("Wrong CVE format")
 
         self.__value = value
+        self.__tags = set()
 
     def get_type(self) -> IoCType:
         return self.__type
 
     def get_value(self) -> str:
         return self.__value
+
+    def get_tags(self) -> set:
+        return self.__tags
+
+    def add_tag(self, tag: str) -> set:
+        self.__tags.add(tag)
+        return self.__tags
+
+    def delete_tag(self, tag: str) -> set:
+        if tag in self.__tags:
+            self.__tags.remove(tag)
+        return self.__tags
 
     def __str__(self) -> str:
         return f"{self.__type}: {self.__value}"

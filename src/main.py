@@ -4,7 +4,7 @@ import argparse
 from dotenv import load_dotenv
 
 from .data.collector import DataCollector
-from .data.parser import DataParser
+from .data.reporter import DataReporter
 from .data.enricher import DataEnricher
 from .data.exporter import DataExporter
 from .data.extractor import DataExtractor
@@ -16,6 +16,8 @@ from .extractors.ip import IPExtractor
 from .extractors.hash import HashExtractor
 from .extractors.cve import CVEExtractor
 from .extractors.domain import DomainExtractor
+
+from .enrichers.tag import TagEnricher
 
 from .exporters.misp import MISPExporter
 
@@ -72,16 +74,20 @@ def main():
         DomainExtractor(),
     ]
 
+    enrichers = [
+        TagEnricher()
+    ]
+
     data_collector = DataCollector(collector=collector)
     raw_data = data_collector.collect()
 
     data_extractor = DataExtractor(raw_data, extractors=extractors)
     extracted_data = data_extractor.extract()
 
-    data_parser = DataParser(extracted_data)
-    iocs = data_parser.parse()
+    data_parser = DataReporter(extracted_data)
+    report = data_parser.parse()
 
-    data_enricher = DataEnricher(iocs)
+    data_enricher = DataEnricher(report, enrichers=enrichers)
     report = data_enricher.enrich()
 
     data_exporter = DataExporter(report, exporter=exporter)

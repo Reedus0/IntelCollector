@@ -50,6 +50,7 @@ class MISPExporter(Exporter):
     def __map_ioc_to_attribute(self, ioc: IoC) -> dict[str, Any]:
         ioc_type = ioc.get_type()
         value = ioc.get_value()
+        tags = ioc.get_tags()
 
         if ioc_type == IoCType.IP:
             return {
@@ -57,6 +58,7 @@ class MISPExporter(Exporter):
                 "category": "Network activity",
                 "value": value,
                 "to_ids": False,
+                "Tag": [{"name": x} for x in tags],
             }
 
         if ioc_type == IoCType.DOMAIN:
@@ -65,6 +67,7 @@ class MISPExporter(Exporter):
                 "category": "Network activity",
                 "value": value,
                 "to_ids": False,
+                "Tag": [{"name": x} for x in tags]
             }
 
         if ioc_type == IoCType.CVE:
@@ -73,6 +76,7 @@ class MISPExporter(Exporter):
                 "category": "External analysis",
                 "value": value,
                 "to_ids": False,
+                "Tag": [{"name": x} for x in tags]
             }
 
         if ioc_type == IoCType.MD5:
@@ -81,6 +85,7 @@ class MISPExporter(Exporter):
                 "category": "Payload delivery",
                 "value": value,
                 "to_ids": False,
+                "Tag": [{"name": x} for x in tags]
             }
 
         if ioc_type == IoCType.SHA1:
@@ -89,6 +94,7 @@ class MISPExporter(Exporter):
                 "category": "Payload delivery",
                 "value": value,
                 "to_ids": False,
+                "Tag": [{"name": x} for x in tags]
             }
 
         if ioc_type == IoCType.SHA256:
@@ -97,6 +103,7 @@ class MISPExporter(Exporter):
                 "category": "Payload delivery",
                 "value": value,
                 "to_ids": False,
+                "Tag": [{"name": x} for x in tags]
             }
 
         return {

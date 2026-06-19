@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from datetime import datetime, timedelta
 
 from .data.collector import DataCollector
-from .data.parser import DataParser
+from .data.reporter import DataReporter
 from .data.enricher import DataEnricher
 from .data.exporter import DataExporter
 from .data.extractor import DataExtractor
@@ -25,6 +25,8 @@ def main():
         REGRUExtractor()
     ]
 
+    enrichers = []
+
     yesterday = (datetime.now() - timedelta(days=1)
                  ).strftime("%Y-%m-%d")
     event_name = f"Домены в зоне .RU за {yesterday}"
@@ -38,10 +40,10 @@ def main():
     data_extractor = DataExtractor(raw_data, extractors=extractors)
     extracted_data = data_extractor.extract()
 
-    data_parser = DataParser(extracted_data)
+    data_parser = DataReporter(extracted_data)
     iocs = data_parser.parse()
 
-    data_enricher = DataEnricher(iocs)
+    data_enricher = DataEnricher(iocs, enrichers=enrichers)
     report = data_enricher.enrich()
 
     data_exporter = DataExporter(report, exporter=exporter)
