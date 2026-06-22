@@ -20,5 +20,5 @@ class ResolveEnricher(Enricher):
         obj = Relation(RelationType.DOMAIN_IP, [ioc, ip_ioc])
 
         result = Report()
-        result.add_object(obj)
+        result.add_relation(obj)
         return result
