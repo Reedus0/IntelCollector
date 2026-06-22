@@ -1,11 +1,11 @@
 from .ioc import IoC
-from .object import Object
+from .relation import Relation
 
 
 class Report():
 
     __iocs: list[IoC]
-    __objects: list[Object]
+    __objects: list[Relation]
 
     def __init__(self):
         self.__iocs = []
@@ -15,14 +15,14 @@ class Report():
         self.__iocs.append(ioc)
         return self.__iocs
 
-    def add_object(self, object: Object) -> list[Object]:
+    def add_object(self, object: Relation) -> list[Relation]:
         self.__objects.append(object)
         return self.__objects
 
     def get_iocs(self) -> list[IoC]:
         return self.__iocs
 
-    def get_objects(self) -> list[Object]:
+    def get_objects(self) -> list[Relation]:
         return self.__objects
 
     def __add__(self, other: "Report") -> "Report":

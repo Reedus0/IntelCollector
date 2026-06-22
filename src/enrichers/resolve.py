@@ -1,7 +1,7 @@
 from .enricher import Enricher
 from ..objects.ioc import IoC, IoCType
 from ..objects.report import Report
-from ..objects.object import Object, ObjectType
+from ..objects.relation import Relation, RelationType
 
 import socket
 
@@ -16,7 +16,8 @@ class ResolveEnricher(Enricher):
         ip_address = socket.gethostbyname(ioc.get_value())
 
         ip_ioc = IoC(IoCType.IP, ip_address)
-        obj = Object(ObjectType.DOMAIN_IP, [ioc, ip_ioc])
+        ip_ioc.add_tag("c2")
+        obj = Relation(RelationType.DOMAIN_IP, [ioc, ip_ioc])
 
         result = Report()
         result.add_object(obj)

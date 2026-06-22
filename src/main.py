@@ -76,8 +76,8 @@ def main():
     ]
 
     enrichers = [
+        ResolveEnricher(),
         TagEnricher(),
-        ResolveEnricher()
     ]
 
     data_collector = DataCollector(collector=collector)
