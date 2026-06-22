@@ -19,5 +19,5 @@ class DataExtractor:
         result = {}
         for extractor in self.__extractors:
             extracted_data = extractor.extract(self.__data)
-            result[str(extractor)] = extracted_data
+            result[str(extractor)] = list(set(extracted_data))
         return result
