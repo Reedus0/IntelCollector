@@ -18,7 +18,6 @@ class MISPExporter(Exporter):
         url: str,
         api_key: str,
         event_name: str = None,
-        ssl: bool | str = False,
     ):
         if not url:
             raise ValueError("URL cannot be None")
@@ -26,13 +25,12 @@ class MISPExporter(Exporter):
         if not api_key:
             raise ValueError("api_key cannot be None")
 
-        if ssl is False:
-            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
         self.__misp = PyMISP(
             url.rstrip("/"),
             api_key,
-            ssl=ssl,
+            ssl=False,
             http_headers={
                 "Accept": "application/json",
                 "Content-Type": "application/json",
@@ -68,7 +66,7 @@ class MISPExporter(Exporter):
 
         for obj in objects:
             misp_object = self.__map_obejct_to_misp_object(obj)
-            self.__misp.add_object(created_event, misp_object, pythonify=False)
+            self.__misp.add_object(created_event, misp_object)
 
     def __map_ioc_to_misp_attribute(self, ioc: IoC, object_relation: str | None = None) -> MISPAttribute:
         ioc_type = ioc.get_type()
@@ -119,7 +117,7 @@ class MISPExporter(Exporter):
         object_type = obj.get_type()
 
         if object_type == RelationType.DOMAIN_IP:
-            misp_object = MISPObject("domain-ip", standalone=False)
+            misp_object = MISPObject("domain-ip")
 
             for ioc in obj.get_iocs():
                 if ioc.get_type() == IoCType.DOMAIN:
@@ -131,15 +129,9 @@ class MISPExporter(Exporter):
                         f"Unsupported IoC type in object: {ioc.get_type()}"
                     )
 
-                kwargs: dict[str, Any] = {"to_ids": False}
-                tags = ioc.get_tags()
-                if tags:
-                    kwargs["Tag"] = [{"name": x} for x in tags]
-
                 misp_object.add_attribute(
                     object_relation=relation,
                     simple_value=ioc.get_value(),
-                    **kwargs,
                 )
 
             return misp_object
