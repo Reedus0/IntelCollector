@@ -29,7 +29,7 @@ def main():
 
     yesterday = (datetime.now() - timedelta(days=1)
                  ).strftime("%Y-%m-%d")
-    event_name = f"Домены в зоне .RU за {yesterday}"
+    event_name = f"Все домены в зоне .RU за {yesterday}"
 
     exporter = MISPExporter(
         os.environ["MISP_URL"], os.environ["MISP_API_KEY"], event_name)
