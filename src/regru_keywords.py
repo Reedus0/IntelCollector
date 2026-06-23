@@ -1,0 +1,64 @@
+import os
+
+from dotenv import load_dotenv
+from datetime import datetime, timedelta
+
+from .data.collector import DataCollector
+from .data.reporter import DataReporter
+from .data.enricher import DataEnricher
+from .data.exporter import DataExporter
+from .data.extractor import DataExtractor
+
+from .collectors.regru import REGRUCollector
+from .extractors.regru import REGRUExtractor
+
+from .exporters.misp import MISPExporter
+
+
+KEYWORDS = [
+    ".*yandex.*", "ya.*", ".*d[1i]sk.*",
+    ".*es[1i]a.*", ".*365.*",
+    ".*dr[0o]ne.*", ".*gos.*", ".*rkn.*",
+    ".*r[0o]sk[0o]m.*", ".*nadz[0o]r.*", ".*sber.*",
+    ".*vtb.*", ".*rzd.*", ".*cum.*", ".*milos.*",
+    ".*rikardo.*", ".*alfa.*"
+]
+
+
+def main():
+
+    load_dotenv()
+
+    collector = REGRUCollector()
+
+    extractors = [
+        REGRUExtractor(KEYWORDS)
+    ]
+
+    enrichers = []
+
+    yesterday = (datetime.now() - timedelta(days=1)
+                 ).strftime("%Y-%m-%d")
+    event_name = f"Домены в зоне .RU за {yesterday}"
+
+    exporter = MISPExporter(
+        os.environ["MISP_URL"], os.environ["MISP_API_KEY"], event_name)
+
+    data_collector = DataCollector(collector=collector)
+    raw_data = data_collector.collect()
+
+    data_extractor = DataExtractor(raw_data, extractors=extractors)
+    extracted_data = data_extractor.extract()
+
+    data_parser = DataReporter(extracted_data)
+    iocs = data_parser.parse()
+
+    data_enricher = DataEnricher(iocs, enrichers=enrichers)
+    report = data_enricher.enrich()
+
+    data_exporter = DataExporter(report, exporter=exporter)
+    data_exporter.export()
+
+
+if __name__ == "__main__":
+    main()
