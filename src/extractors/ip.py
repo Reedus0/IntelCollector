@@ -13,4 +13,8 @@ class IPExtractor(Extractor):
             if "[" in ip:
                 result.append(ip.replace("[.]", "."))
 
+        if not len(result):
+            for ip in ips:
+                result.append(ip)
+
         return list(set(result))

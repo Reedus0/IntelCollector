@@ -13,12 +13,15 @@ class ResolveEnricher(Enricher):
         if ioc_type != IoCType.DOMAIN:
             return Report()
 
-        ip_address = socket.gethostbyname(ioc.get_value())
+        try:
+            ip_address = socket.gethostbyname(ioc.get_value())
 
-        ip_ioc = IoC(IoCType.IP, ip_address)
-        ip_ioc.add_tag("c2")
-        obj = Relation(RelationType.DOMAIN_IP, [ioc, ip_ioc])
+            ip_ioc = IoC(IoCType.IP, ip_address)
+            ip_ioc.add_tag("c2")
+            obj = Relation(RelationType.DOMAIN_IP, [ioc, ip_ioc])
 
-        result = Report()
-        result.add_relation(obj)
-        return result
+            result = Report()
+            result.add_relation(obj)
+            return result
+        except:
+            return Report()
